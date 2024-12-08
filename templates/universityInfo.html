@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <title>University</title>
+    <script>
+        function fetchSt() {
+            fetch('/students', {method :'get'}).
+            then(res => res.json()).
+            then(data => {
+                jsonArr = data;
+                const tableBody = document.getElementById('student-table').getElementsByTagName('tbody')[0];
+                tableBody.innerHTML = ''; // remove previous rows
+                let i = 0;
+                while (i < jsonArr.length) {
+                    // Create one row for each student from json
+                    const newRow = document.createElement('tr');
+
+                    const idCell = document.createElement('td');
+                    idCell.textContent =  jsonArr[i].id;
+                    idCell.style.width = '20%';
+                    newRow.appendChild(idCell);
+
+                    const nameCell = document.createElement('td');
+                    nameCell.textContent = jsonArr[i].name;
+                    nameCell.style.width = '20%';
+                    newRow.appendChild(nameCell);
+
+                    const GPACell = document.createElement('td');
+                    GPACell.textContent = jsonArr[i].gpa;
+                    GPACell.style.width = '20%';
+                    newRow.appendChild(GPACell);
+
+                    tableBody.appendChild(newRow);
+                    i++;
+                }
+            }).
+            catch(err => {
+                console.log(err);
+            });
+    }
+    </script>
+</head>
+<body>
+
+<div class="jumbotron text-center">
+    <h2>Hogwarts University</h2>
+    <h2>Welcome, Prof. $name</h2>
+
+</div>
+<div class="container">
+    <h5> Students: </h5>
+    <table id="student-table" class="table table-bordered">
+        <thead>
+        <tr>
+            <th style="width: 20%;">Id</th>
+            <th style="width: 20%;">Name</th>
+            <th style="width: 20%;">GPA</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Student rows will be dynamically added here -->
+        </tbody>
+    </table>
+    <form>
+        <input type ="button" value = "Show More" onclick="fetchSt()">
+    </form>
+</div>
+
+</body>
+</html>
